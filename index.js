@@ -19,7 +19,7 @@ io.on('connection', function(socket)
             var room = { roomId: roomId, users: [{ userId : socket.id, ready : false}] };
             rooms.push(room);
 
-            socket.emit("server_in", {roomId : roomId});
+            socket.emit("server_in", {roomId : roomId, userId : socket.id});
         });
     }
 
@@ -78,7 +78,7 @@ io.on('connection', function(socket)
                 }
                 if(users.length == count)
                 {
-                    var randomPeople = getRandom();
+                    var randomPeople = getRandomInt(0, 2);
                     var anotherPeople;
 
                     if(randomPeople == 0)
@@ -96,9 +96,9 @@ io.on('connection', function(socket)
         }
     });
 
-    var getRandom = function() 
-    {
-        return Math.random();
+    function getRandomInt(min, max) 
+    { //min ~ max 사이의 임의의 정수 반환
+        return Math.floor(Math.random() * (max - min)) + min;
     }
 
     socket.on('client_cellclick', function(data)
